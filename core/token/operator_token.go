@@ -1,5 +1,7 @@
 package token
 
+import "ExpGo/core/setting"
+
 // OperatorToken 运算符类型词元
 type OperatorToken struct {
 	symbol          string
@@ -8,13 +10,17 @@ type OperatorToken struct {
 }
 
 func (ot *OperatorToken) Type() int {
-	return Operator
+	return setting.Operator
 }
 
-func BuildOperatorToken(symbol string, operatorNumber int, priority int) *OperatorToken {
+func NewOperatorToken(symbol string, operatorNumber int, priority int) *OperatorToken {
 	return &OperatorToken{
 		symbol:          symbol,
 		operationNumber: operatorNumber,
 		priority:        priority,
 	}
+}
+
+func NewMultiplicationOperatorToken() *OperatorToken {
+	return NewOperatorToken("*", 2, setting.MultiplicationPriority)
 }
