@@ -4,23 +4,44 @@ import "ExpGo/core/setting"
 
 // OperatorToken 运算符类型词元
 type OperatorToken struct {
-	symbol          string
-	operationNumber int
-	priority        int
+	Symbol            string
+	OperationNumber   int
+	Priority          int
+	IsLeftAssociative bool
 }
 
-func (ot *OperatorToken) Type() int {
+func (ot OperatorToken) Type() int {
 	return setting.Operator
 }
 
-func NewOperatorToken(symbol string, operatorNumber int, priority int) *OperatorToken {
+func NewOperatorToken(symbol string, operatorNumber int, priority int, isLeftAssociative bool) *OperatorToken {
 	return &OperatorToken{
-		symbol:          symbol,
-		operationNumber: operatorNumber,
-		priority:        priority,
+		Symbol:            symbol,
+		OperationNumber:   operatorNumber,
+		Priority:          priority,
+		IsLeftAssociative: isLeftAssociative,
 	}
 }
 
 func NewMultiplicationOperatorToken() *OperatorToken {
-	return NewOperatorToken("*", 2, setting.MultiplicationPriority)
+	return NewOperatorToken("*", 2, setting.MulOrDivOrModPriority, true)
+}
+
+func NewOperatorTokenWithSymbolAndArgs(symbol string, operatorNumber int) *OperatorToken {
+	if operatorNumber == 1 {
+		return NewOperatorToken(symbol, 1, setting.UnaryOrPowerPriority, false)
+	} else {
+		switch symbol {
+		case "+":
+		case "-":
+			return NewOperatorToken(symbol, 2, setting.AddOrSubPriority, true)
+		case "*":
+		case "/":
+		case "%":
+			return NewOperatorToken(symbol, 2, setting.MulOrDivOrModPriority, true)
+		case "^":
+			return NewOperatorToken(symbol, 2, setting.UnaryOrPowerPriority, true)
+		}
+	}
+	return nil
 }

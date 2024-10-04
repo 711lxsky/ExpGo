@@ -7,6 +7,12 @@ type VariableToken struct {
 	Name string
 }
 
-func (vt *VariableToken) Type() int {
+func (vt VariableToken) Type() int {
 	return setting.Variable
+}
+
+func NewVariableToken(name string) *VariableToken {
+	return &VariableToken{
+		Name: name,
+	}
 }

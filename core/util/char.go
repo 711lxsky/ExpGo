@@ -35,3 +35,13 @@ func IsAllowedOperatorSymbol(ch byte) bool {
 	}
 	return false
 }
+
+// IsIdentifiable 判断是否为合法的可用以命名的字符
+func IsIdentifiable(ch byte) bool {
+	return unicode.IsLetter(rune(ch)) || ch == '_'
+}
+
+// IsVariableOrFunctionCharacter 判断是否为合法的变量名或函数名
+func IsVariableOrFunctionCharacter(ch byte) bool {
+	return IsIdentifiable(ch) || unicode.IsDigit(rune(ch)) || ch == '.'
+}

@@ -7,7 +7,7 @@ type NumberToken struct {
 	Value string
 }
 
-func (nt *NumberToken) Type() int {
+func (nt NumberToken) Type() int {
 	return setting.Number
 }
 
